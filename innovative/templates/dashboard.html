@@ -1,0 +1,30 @@
+{% extends "workspace.html" %}{% from 'macros.html' import project_card with context %}
+{% block title %}Overview · {{ brand }}{% endblock %}
+{% block workspace_main %}
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Your creative corner</p>
+            <h1>Hello, {{ g.user.first_name }}<span class="heading-dot">.</span></h1>
+            <p>Good things take shape one small step at a time.</p>
+        </div>
+        <a class="button" href="{{ url_for('web.new_project') }}">{{ icon("plus") }} New project</a>
+    </div>
+    <section class="welcome-banner"><div><span class="eyebrow">Make room for possibility</span><h2>{% if total %}Keep the momentum going.{% else %}Every great thing starts<br>with a small idea.{% endif %}</h2><p>{% if total %}Your next step doesn’t have to be big. It just has to be yours.{% else %}Capture what’s on your mind. Give it a name. See where it goes.{% endif %}</p><a href="{{ url_for('web.projects') if total else url_for('web.new_project') }}"
+   class="text-link">{{ 'Explore your projects' if total else 'Create your first project' }} {{ icon("arrow-right") }}</a></div><div class="banner-art" aria-hidden="true"><div class="banner-square">{{ icon("spark") }}</div><div class="banner-circle"></div><div class="banner-ring"></div><span>the next big thing<br>could be yours.</span></div></section>
+    <section class="stats-grid" aria-label="Workspace summary">
+        <a href="{{ url_for('web.projects') }}" class="stat-card"><span class="stat-icon">{{ icon("folder") }}</span>
+            <div><span>Total projects</span><strong>{{ total }}</strong></div>
+        </a><a href="{{ url_for('web.projects', status='in_progress') }}"
+   class="stat-card"><span class="stat-icon blue">{{ icon("clock") }}</span>
+            <div><span>In progress</span><strong>{{ counts.in_progress }}</strong></div>
+        </a><a href="{{ url_for('web.projects', status='completed') }}"
+   class="stat-card"><span class="stat-icon mint-icon">{{ icon("check-circle") }}</span>
+            <div><span>Completed</span><strong>{{ counts.completed }}</strong></div>
+        </a>
+        <div class="stat-card">
+            <span class="stat-icon peach">{{ icon("list") }}</span>
+            <div><span>Checklist items done</span><strong>{{ tasks_done }}<small>/{{ tasks_total }}</small></strong></div>
+        </div>
+    </section>
+    <div class="dashboard-columns"><section><div class="section-heading"><div><h2>Recent projects</h2><p>A little attention goes a long way.</p></div>{% if total %}<a class="text-link" href="{{ url_for('web.projects') }}">View all {{ icon("arrow-right") }}</a>{% endif %}</div>{% if projects %}<div class="project-grid dashboard-projects">{% for project in projects %}{{ project_card(project) }}{% endfor %}</div>{% else %}<div class="empty-state"><span class="empty-icon">{{ icon("folder") }}</span><h3>Your next idea belongs here.</h3><p>Add your first project and start turning possibility into progress.</p><a class="button secondary" href="{{ url_for('web.new_project') }}">{{ icon("plus") }} Create a project</a></div>{% endif %}</section><aside class="activity-panel"><div class="section-heading"><h2>Little milestones</h2>{{ icon("clock") }}</div>{% if events %}<ol class="timeline">{% for event in events %}<li><span class="timeline-dot"></span><div><strong>{{ event.text }}</strong><a href="{{ url_for('web.project_detail', project_id=event.project_id) }}">{{ project_names.get(event.project_id, 'Project') }}</a><time datetime="{{ event.created_at }}">{{ event.created_at|date_label(true) }}</time></div></li>{% endfor %}</ol>{% else %}<div class="activity-empty">{{ icon("spark") }}<p>Every step is a story.<br>Your milestones will appear here as you work.</p></div>{% endif %}<div class="small-quote">“The secret of getting ahead<br>is getting started.”<span>A little reminder for today.</span></div></aside></div>
+{% endblock %}

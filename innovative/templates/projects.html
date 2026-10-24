@@ -1,0 +1,17 @@
+{% extends "workspace.html" %}{% from 'macros.html' import project_card with context %}
+{% block title %}My projects · {{ brand }}{% endblock %}{% block breadcrumb %}My projects{% endblock %}
+{% block workspace_main %}<div class="page-heading"><div><p class="eyebrow">Ideas in motion</p><h1>My projects<span class="heading-dot">.</span></h1><p>A home for everything you’re bringing to life.</p></div><a class="button" href="{{ url_for('web.new_project') }}">{{ icon("plus") }} New project</a></div><div class="project-toolbar"><nav class="filter-tabs" aria-label="Filter projects"><a href="{{ url_for('web.projects', q=query) }}"
+   class="{{ 'selected' if status == 'all' }}"
+   {% if status == 'all' %}aria-current="page"{% endif %}>All <span>{{ total }}</span></a>{% for key, label in statuses.items() %}<a href="{{ url_for('web.projects', status=key, q=query) }}"
+   class="{{ 'selected' if status == key }}"
+   {% if status == key %}aria-current="page"{% endif %}>{{ label }} <span>{{ counts[key] }}</span></a>{% endfor %}</nav><form class="search-form"
+      method="get"
+      action="{{ url_for('web.projects') }}"><input type="hidden" name="status" value="{{ status }}"><label class="sr-only" for="project-search">Search projects</label>{{ icon("search") }}<input id="project-search"
+       type="search"
+       name="q"
+       value="{{ query }}"
+       maxlength="100"
+       placeholder="Find a project…"><button type="submit" class="icon-button" aria-label="Search projects">{{ icon("arrow-right") }}</button></form></div>{% if query %}<p class="search-summary">{{ matched }} result{{ '' if matched == 1 else 's' }} for “{{ query }}” <a href="{{ url_for('web.projects', status=status) }}">Clear search</a></p>{% endif %}{% if projects %}<div class="project-grid all-projects">{% for project in projects %}{{ project_card(project) }}{% endfor %}</div>{% if pages > 1 %}<nav class="pagination" aria-label="Project pages">{% if page > 1 %}<a class="button secondary small"
+   href="{{ url_for('web.projects', status=status, q=query, page=page-1) }}">{{ icon("arrow-left") }} Previous</a>{% endif %}<span>Page {{ page }} of {{ pages }}</span>{% if page < pages %}<a class="button secondary small"
+   href="{{ url_for('web.projects', status=status, q=query, page=page+1) }}">Next {{ icon("arrow-right") }}</a>{% endif %}</nav>{% endif %}{% else %}<div class="empty-state spacious"><span class="empty-icon">{{ icon('search' if query else 'folder') }}</span><h2>{{ 'No projects found.' if query or status != 'all' else 'A blank canvas, full of possibility.' }}</h2><p>{{ 'Try another search or explore all your projects.' if query or status != 'all' else 'Your ideas are ready for a home. Start with a name and take it from there.' }}</p><a class="button"
+   href="{{ url_for('web.projects') if query or status != 'all' else url_for('web.new_project') }}">{{ 'View all projects' if query or status != 'all' else 'Create your first project' }} {{ icon("arrow-right") }}</a></div>{% endif %}{% endblock %}

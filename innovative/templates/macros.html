@@ -1,0 +1,43 @@
+{% macro icon(name, extra='') -%}
+    <svg class="icon {{ extra }}" aria-hidden="true">
+        <use href="#i-{{ name }}"></use>
+    </svg>
+{%- endmacro %}
+{% macro csrf() -%}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+{%- endmacro %}
+{% macro field(name, label, values, errors, type='text', autocomplete='', required=true, maxlength=254, hint='', minlength=none) -%}
+    <div class="field">
+        <label for="{{ name }}">{{ label }}{% if not required %}<span class="optional">Optional</span>{% endif %}</label>
+        <div class="input-wrap{% if type == 'password' %} password-wrap{% endif %}">
+            <input id="{{ name }}"
+                   name="{{ name }}"
+                   type="{{ type }}"
+                   value="{{ values.get(name, '') if type != 'password' else '' }}"
+                   {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+                   {% if required %}required{% endif %}
+                   maxlength="{{ maxlength }}"
+                   {% if minlength %}minlength="{{ minlength }}"{% endif %}
+                   {% if errors.get(name) %}aria-invalid="true" aria-describedby="{{ name }}-error"{% elif hint %}aria-describedby="{{ name }}-hint"{% endif %}>
+            {% if type == "password" %}<button class="reveal-password"
+        type="button"
+        data-password="{{ name }}"
+        aria-label="Show {{ label|lower }}"
+        aria-pressed="false">{{ icon("eye") }}</button>{% endif %}
+        </div>
+        {% if errors.get(name) %}<p class="field-error" id="{{ name }}-error">{{ errors[name] }}</p>{% elif hint %}<p class="field-hint" id="{{ name }}-hint">{{ hint }}</p>{% endif %}
+    </div>
+{%- endmacro %}
+{% macro form_error(errors) -%}{% if errors.get("form") %}<div class="notice error" role="alert">{{ icon("alert") }}<span>{{ errors.form }}</span></div>{% endif %}{%- endmacro %}
+{% macro project_card(project) -%}
+    <article class="project-card category-{{ project.category }}">
+        <div class="card-top"><span class="project-symbol">{{ icon('code' if project.category == 'web' else 'shapes' if project.category == 'design' else 'spark' if project.category == 'brand' else 'folder') }}</span><span class="status status-{{ project.status }}">{{ statuses[project.status] }}</span></div>
+        <span class="eyebrow">{{ categories[project.category] }}</span>
+        <h3><a href="{{ url_for('web.project_detail', project_id=project.id) }}">{{ project.title }}</a></h3>
+        <p class="card-description">{{ project.description or 'A new idea, ready for its next chapter.' }}</p>
+        {% if project.task_count %}<div class="progress-label"><span>Checklist</span><span>{{ project.done_count }}/{{ project.task_count }}</span></div><progress max="100"
+          value="{{ project.progress }}"
+          aria-label="Checklist {{ project.progress }} percent complete"></progress>{% else %}<p class="no-checklist">{{ icon("list") }} Add your first checklist item</p>{% endif %}
+        <div class="card-footer"><span>{{ icon("calendar") }}{% if project.due_date %}Due {{ project.due_date|date_label }}{% else %}Updated {{ project.updated_at|date_label }}{% endif %}</span>{{ icon("arrow-right") }}</div>
+    </article>
+{%- endmacro %}

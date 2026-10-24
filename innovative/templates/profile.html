@@ -1,0 +1,24 @@
+{% extends "workspace.html" %}{% from 'macros.html' import field, csrf, form_error with context %}
+{% block title %}My profile · {{ brand }}{% endblock %}{% block breadcrumb %}My profile{% endblock %}
+{% block workspace_main %}<div class="page-heading"><div><p class="eyebrow">The person behind the ideas</p><h1>Make yourself at home<span class="heading-dot">.</span></h1><p>A few details that make your workspace yours.</p></div></div>{{ form_error(errors) }}<div class="profile-layout"><aside class="profile-card panel"><span class="avatar large-avatar">{{ g.user.first_name[0]|upper }}{{ g.user.last_name[0]|upper }}</span><h2>{{ g.user.first_name }} {{ g.user.last_name }}</h2><span class="muted">@{{ g.user.username }}</span>{% if g.user.bio %}<p>{{ g.user.bio }}</p>{% endif %}<div class="member-since">{{ icon("calendar") }} Here since {{ g.user.created_at|date_label }}</div><a class="button secondary full small"
+   href="{{ url_for('web.export_account') }}">{{ icon("download") }} Export my workspace</a></aside><div><section class="panel"><div class="section-heading"><div><h2>The essentials</h2><p>Keep your details up to date.</p></div>{{ icon("user") }}</div><form method="post" class="stack-form">{{ csrf() }}<input type="hidden" name="action" value="profile"><input type="hidden" name="version" value="{{ g.user.version }}"><div class="field-row">{{ field('first_name', 'First name', values, errors, autocomplete='given-name', maxlength=50) }}{{ field('last_name', 'Last name', values, errors, autocomplete='family-name', maxlength=50) }}</div>{{ field('username', 'Username', values, errors, autocomplete='username', maxlength=24, minlength=3) }}{{ field('email', 'Email address', values, errors, type='email', autocomplete='email') }}{{ field('current_password', 'Current password', {}, errors, type='password', autocomplete='current-password', required=false, maxlength=128, hint='Required only when changing your email address.') }}<div class="field"><label for="bio">A little about you<span class="optional">Optional</span></label><textarea id="bio"
+          name="bio"
+          rows="3"
+          maxlength="500"
+          placeholder="What inspires you?">{{ values.get('bio', '') }}</textarea>{% if errors.get("bio") %}<p class="field-error">{{ errors.bio }}</p>{% endif %}<p class="field-hint">Up to 500 characters. This stays inside your workspace.</p></div><div class="form-actions"><button class="button" type="submit">Save profile {{ icon("check") }}</button></div></form></section><section class="panel"><div class="section-heading"><div><h2>A fresh password</h2><p>Changing it also signs out your other sessions.</p></div>{{ icon("lock") }}</div><form method="post" class="stack-form">{{ csrf() }}<input type="hidden" name="action" value="password"><input type="hidden" name="version" value="{{ g.user.version }}"><div class="field"><label for="password-current">Current password</label><input id="password-current"
+       name="current_password"
+       type="password"
+       autocomplete="current-password"
+       required
+       maxlength="128"></div>{{ field('password', 'New password', {}, {}, type='password', autocomplete='new-password', maxlength=128, minlength=12, hint='At least 12 characters.') }}{{ field('confirm_password', 'Confirm new password', {}, {}, type='password', autocomplete='new-password', maxlength=128, minlength=12) }}<div class="form-actions"><button class="button secondary" type="submit">Update password {{ icon("arrow-right") }}</button></div></form></section><section class="panel danger-panel"><details><summary>Close your account {{ icon("arrow-right") }}</summary><p>This permanently deletes your account, projects, checklists and activity. Export your workspace first if you want to keep a copy.</p><form method="post"
+      class="stack-form"
+      data-confirm="Permanently delete your account and all workspace data? This can’t be undone.">{{ csrf() }}<input type="hidden" name="action" value="delete"><input type="hidden" name="version" value="{{ g.user.version }}"><div class="field"><label for="confirm-username">Type your username: {{ g.user.username }}</label><input id="confirm-username"
+       name="confirm_username"
+       autocomplete="off"
+       required
+       maxlength="24"></div><div class="field"><label for="delete-password">Current password</label><input id="delete-password"
+       name="current_password"
+       type="password"
+       autocomplete="current-password"
+       required
+       maxlength="128"></div><button type="submit" class="button danger">{{ icon("trash") }} Permanently delete my account</button></form></details></section></div></div>{% endblock %}

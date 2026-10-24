@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body_class %}workspace-page{% endblock %}
+{% block body %}
+    <div class="workspace-shell"><aside class="sidebar" id="sidebar" aria-label="Workspace navigation"><a class="brand" href="{{ url_for('web.dashboard') }}"><span class="brand-mark">{{ icon("spark") }}</span><span>innovative<span class="brand-second">creations</span></span></a><button class="sidebar-close icon-button"
+        type="button"
+        data-toggle-sidebar
+        aria-label="Close menu">{{ icon("close") }}</button><span class="nav-label">Your workspace</span><nav><a class="nav-item {{ 'active' if active == 'dashboard' }}"
+   href="{{ url_for('web.dashboard') }}"
+   {% if active == 'dashboard' %}aria-current="page"{% endif %}>{{ icon("grid") }} Overview</a><a class="nav-item {{ 'active' if active == 'projects' }}"
+   href="{{ url_for('web.projects') }}"
+   {% if active == 'projects' %}aria-current="page"{% endif %}>{{ icon("folder") }} My projects</a><a class="nav-item {{ 'active' if active == 'profile' }}"
+   href="{{ url_for('web.profile') }}"
+   {% if active == 'profile' %}aria-current="page"{% endif %}>{{ icon("user") }} My profile</a></nav><div class="sidebar-prompt">{{ icon("spark") }}<h3>One idea can<br>change everything.</h3><p>Give yours a little room to grow.</p><a href="{{ url_for('web.new_project') }}">Start a project {{ icon("arrow-right") }}</a></div><div class="sidebar-bottom"><a class="nav-item" href="{{ url_for('web.help_page') }}">{{ icon("help") }} A little guidance</a><div class="sidebar-user"><a class="avatar"
+   href="{{ url_for('web.profile') }}"
+   aria-label="Open your profile">{{ g.user.first_name[0]|upper }}{{ g.user.last_name[0]|upper }}</a><div><strong>{{ g.user.first_name }} {{ g.user.last_name }}</strong><span>@{{ g.user.username }}</span></div><form method="post" action="{{ url_for('auth.logout') }}">{{ csrf() }}<button class="icon-button" type="submit" aria-label="Log out">{{ icon("logout") }}</button></form></div></div></aside><button class="sidebar-backdrop"
+        type="button"
+        data-toggle-sidebar
+        aria-label="Close navigation"
+        hidden></button>
+        <div class="workspace-content">{% include "_noscript_nav.html" %}<header class="workspace-topbar"><button class="icon-button mobile-menu"
+        type="button"
+        data-toggle-sidebar
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="sidebar">{{ icon("menu") }}</button><div class="breadcrumb">Workspace <span>/</span> {% block breadcrumb %}Overview{% endblock %}</div><div class="topbar-right"><span class="topbar-date">{{ today|date_label }}</span><a class="avatar small-avatar"
+   href="{{ url_for('web.profile') }}"
+   aria-label="My profile">{{ g.user.first_name[0]|upper }}{{ g.user.last_name[0]|upper }}</a></div></header><main id="main" class="workspace-main">{% include "_notices.html" %}{% block workspace_main %}{% endblock %}</main><footer class="workspace-footer">A little progress, every day.<span>Innovative Creations © {{ current_year }}</span></footer></div></div>
+{% endblock %}

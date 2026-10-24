@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}{{ heading }} · {{ brand }}{% endblock %}
+{% block main %}<section class="error-page"><span class="error-code">{{ code }}</span><span class="empty-icon">{{ icon("spark") }}</span><h1>{{ heading }}</h1><p>{{ message }}</p><a class="button"
+   href="{{ url_for('auth.forgot_password') if recovery else url_for('web.dashboard') if g.user else url_for('web.index') }}">{{ 'Request a new link' if recovery else 'Back to your workspace' if g.user else 'Back to the beginning' }} {{ icon("arrow-right") }}</a></section>{% endblock %}

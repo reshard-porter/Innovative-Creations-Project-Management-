@@ -1,0 +1,3 @@
+{% from 'macros.html' import icon with context %}
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="notices" aria-live="polite">{% for category, message in messages %}<div class="notice {{ category }}"
+     role="{{ 'alert' if category == 'error' else 'status' }}">{{ icon('alert' if category == 'error' else 'check-circle') }}<span>{{ message }}</span><button type="button" data-dismiss-notice aria-label="Dismiss message">{{ icon("close") }}</button></div>{% endfor %}</div>{% endif %}{% endwith %}

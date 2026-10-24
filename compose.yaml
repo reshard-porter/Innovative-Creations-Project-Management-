@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      DATABASE_BACKEND: ${DATABASE_BACKEND:-sqlite}
+      MONGO_URI: ${MONGO_URI:-mongodb://host.docker.internal:27017/Users}
+      SECRET_KEY: ${SECRET_KEY:-}
+      APP_BASE_URL: ${APP_BASE_URL:-http://127.0.0.1:5000}
+      AUTH_MAIL_MODE: ${AUTH_MAIL_MODE:-console}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_STARTTLS: ${SMTP_STARTTLS:-true}
+    volumes:
+      - creations-data:/app/instance
+    restart: unless-stopped
+volumes:
+  creations-data:

@@ -169,4 +169,3 @@ The old Windows/Python 3.7 environment, generated logs, corrupted home template 
 See [TESTING.md](TESTING.md) for the checks completed with this build and the environment-dependent checks still to run.
 
 Reference documentation: [Flask](https://flask.palletsprojects.com/en/stable/), [Flask-WTF](https://flask-wtf.readthedocs.io/en/latest/csrf/), [Werkzeug password helpers](https://werkzeug.palletsprojects.com/en/stable/utils/#module-werkzeug.security), [PyMongo](https://www.mongodb.com/docs/languages/python/pymongo-driver/current/).
-# Innovative-Creations-Project-Management-

@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block body_class %}auth-page{% endblock %}
+{% block main %}<div class="auth-layout"><aside class="auth-story"><span class="eyebrow light">A little space for big ideas</span><h2>Your next great<br>creation starts<br>with <em>you.</em></h2><div class="auth-art" aria-hidden="true"><div class="art-square">{{ icon("spark") }}</div><div class="art-circle"></div><div class="art-outline"></div></div><p>Keep your inspiration close.<br>Give your ideas somewhere to go.</p><span class="story-footer">INNOVATIVE CREATIONS · {{ current_year }}</span></aside><section class="auth-form-panel">{% block auth_content %}{% endblock %}</section></div>{% endblock %}

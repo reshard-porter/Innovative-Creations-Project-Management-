@@ -1,0 +1,14 @@
+.venv/
+venv/
+.env
+instance/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+pytest-of-*/
+node_modules/
+browser-artifacts/
+.DS_Store
+*.log
+*.sqlite3*

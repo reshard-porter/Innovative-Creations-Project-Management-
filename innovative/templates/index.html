@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block body_class %}landing-page{% endblock %}
+{% block main %}
+    <section class="hero">
+        <video class="hero-video"
+               id="hero-video"
+               muted
+               loop
+               playsinline
+               preload="none"
+               poster="{{ url_for('static', filename='poster.jpg') }}"
+               aria-hidden="true"
+               tabindex="-1">
+            <source src="{{ url_for('static', filename='back.mp4') }}" type="video/mp4">
+        </video>
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+            <p class="eyebrow light"><span class="live-dot"></span> {{ tagline }}</p>
+            <h1>
+                Good ideas deserve
+                <br>
+                a place to <em>grow.</em>
+            </h1>
+            <p class="hero-description">A little clarity. A little momentum. One space to turn your next big idea into something real.</p>
+            <div class="hero-actions"><a class="button mint large"
+   href="{{ url_for('web.dashboard') if g.user else url_for('auth.register') }}">{{ 'Open your workspace' if g.user else 'Create your workspace' }} {{ icon("arrow-right") }}</a><a class="text-link light" href="#how-it-works">Take a closer look {{ icon("arrow-right") }}</a></div>
+            <div class="hero-note">{{ icon("check-circle") }} Your ideas. Your projects. Your own pace.</div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="idea-tile">
+                {{ icon("spark") }}<span>Something
+                <br>
+                great starts here.</span>
+            </div>
+            <div class="floating-label">{{ icon("check-circle") }} A little progress, every day</div>
+            <div class="tiny-tile">{{ icon("shapes") }}</div>
+        </div>
+        <button class="video-toggle"
+                type="button"
+                id="video-toggle"
+                aria-controls="hero-video"
+                aria-pressed="false">{{ icon("play") }}<span>Play background</span></button>
+    </section>
+    <section class="value-strip" aria-label="Workspace features">
+        <span>{{ icon("spark") }} Capture the possibility</span><span>{{ icon("folder") }} Give it a little structure</span><span>{{ icon("check-circle") }} Make your next move</span>
+    </section>
+    <section class="section-wrap how-section" id="how-it-works">
+        <div class="section-intro">
+            <p class="eyebrow">From “what if” to “here it is”</p>
+            <h2>
+                Less scattered.
+                <br>
+                More <span class="serif-word">inspired.</span>
+            </h2>
+            <p>You bring the ideas. We’ll help you keep the details together.</p>
+        </div>
+        <div class="steps">
+            <article><span class="step-number">01</span>
+                <div>
+                    <h3>Make yourself at home</h3>
+                    <p>Create an account and a profile that feels like you. Your workspace stays personal.</p>
+                </div>
+                {{ icon("user") }}</article><article><span class="step-number">02</span>
+                <div>
+                    <h3>Give your idea a name</h3>
+                    <p>Add a project, collect the details and break the next steps into a simple checklist.</p>
+                </div>
+                {{ icon("folder") }}</article><article><span class="step-number">03</span>
+                <div>
+                    <h3>Watch it come together</h3>
+                    <p>Move from idea to in progress to completed. Every small step counts.</p>
+                </div>
+                {{ icon("check-circle") }}</article>
+            </div>
+        </section>
+        <section class="closing-cta">
+            <div>
+                <p class="eyebrow">Your next chapter</p>
+                <h2>
+                    Start small.
+                    <br>
+                    Make something meaningful.
+                </h2>
+            </div>
+            <a class="button large"
+               href="{{ url_for('web.new_project') if g.user else url_for('auth.register') }}">Let’s begin {{ icon("arrow-right") }}</a>
+        </section>
+{% endblock %}
